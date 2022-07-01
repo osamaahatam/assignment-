@@ -1,115 +1,190 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MaterialApp(
+      home: MainScreen(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
 }
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class MainScreen extends StatelessWidget {
+  Size? size;
+   MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    //Getting The actuall size of screen
+    size=MediaQuery.of(context).size;
+    print('${size!.width.ceil()}${size!.height.ceil()}');
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Colors.transparent,
+        //the height of the shadow of this widget
+        elevation: 0,
+        leading: Icon(Icons.arrow_back,color: Colors.black,),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            // color: Colors.red,
+            height: 250,
+            alignment:Alignment.topCenter,
+            child: CircleAvatar(
+              backgroundColor: Colors.black26,
+              radius: 110,
+              child: const CircleAvatar(
+                radius: 100,
+                backgroundImage: NetworkImage(
+                  'https://imgs.search.brave.com/vALMth8xJTHQFXEfBv_OOlSQ9vQRBoTyeZDr--QeFzY/rs:fit:1000:600:1/g:ce/aHR0cHM6Ly8ycGFj/bGVnYWN5Lm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMC8w/MS9XaGF0LVdhcy1U/dXBhYy1TaGFrdXIt/TmV0LVdvcnRoLUF0/LVRoZS1UaW1lLU9m/LUhpcy1EZWF0aC5q/cGc',
+                  ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+          ),
+           const Text(
+             'Tupac Shakur',
+             style: TextStyle(
+               fontSize: 20,
+               fontWeight: FontWeight.bold,
+             ),
+             ),
+             const SizedBox(height: 20,),
+             const Text(
+               'Tupac Amaru Shakur born Lesane Parish Crooks, June 16, 1971 – September 13, 1996), known professionally as 2Pac and later Makaveli, was an American rapper and actor. He is widely considered one of the most influential rappers of all time.',
+               textAlign: TextAlign.center,),
+               const SizedBox(height: 20,),
+               //facebook bottom
+               SizedBox(
+                //the withd of this sizeBox is the 80% of the screen
+                width: size!.width * 0.8,
+                //the withd of this sizeBox is the 80% of the screen
+                height: size!.height * 0.05,
+                 child: ElevatedButton(
+                  onPressed: (){
+                    _launchUrl(Uri.parse('https://www.facebook.com/osama.hatam.1'));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                     children:const [
+                      Icon(
+                        Icons.facebook,
+                      ),
+                      SizedBox(width: 15,),
+                      Text('Facebook',textAlign: TextAlign.end,style: TextStyle(fontSize:18 ),)
+                     ],
+                   ),
+                  ),
+               ),
+               SizedBox(height: 20,),
+               SizedBox(
+                //Github Buttom
+                //the withd of this sizeBox is the 80% of the screen
+                width: size!.width * 0.8,
+                //the withd of this sizeBox is the 80% of the screen
+                height: size!.height * 0.05,
+                 child: ElevatedButton(
+                  onPressed: (){
+                    _launchUrl(Uri.parse('https://github.com/osamaahatam'));
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.black),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                     children: const [
+                      Icon(
+                        MdiIcons.github,
+                      ),
+                      SizedBox(width: 15,),
+                      Text('Github',textAlign: TextAlign.end,style: TextStyle(fontSize:18 ),),
+                     ],
+                   ),
+                  ),
+               ),
+               SizedBox(height:20),
+                 SizedBox(
+                // StackOve flow buttom
+                //the withd of this sizeBox is the 80% of the screen
+                width: size!.width * 0.8,
+                //the withd of this sizeBox is the 80% of the screen
+                height: size!.height * 0.05,
+                 child: ElevatedButton(
+                  onPressed: (){
+                    _launchUrl(Uri.parse('https://stackoverflow.com/users/19226124/osama-hatam'));
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.orange),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                     children: const [
+                      Icon(
+                        MdiIcons.stackOverflow,
+                      ),
+                      SizedBox(width: 15,),
+                      Text('stack Overflow',textAlign: TextAlign.end,style: TextStyle(fontSize:18 ),),
+                     ],
+                   ),
+                  ),
+               ),
+               SizedBox(height: 20,),
+               Row(
+                children: [
+                  SizedBox(width: 50,),
+                  ElevatedButton(
+                    style:ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      shape:const CircleBorder(),
+                      padding: const EdgeInsets.all(15),
+                      ),
+                    onPressed: (){},
+                    child: Icon(
+                      Icons.whatsapp,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(width: 50,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: const EdgeInsets.all(20),
+                    ),
+                    onPressed: (){},
+                    child: Icon(
+                      Icons.mail,
+                      size: 25,
+                    ),
+                  ),
+                  SizedBox(width: 50,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:Colors.black26,
+                      shape: CircleBorder(),
+                      padding: const EdgeInsets.all(20),
+                    ),
+                    onPressed: (){},
+                    child: Icon(
+                      MdiIcons.messageBadge,
+                      // size: 25,
+                    ),
+                  ),
+                ],
+               ),
+          //   Ink(
+          //     width: 300,
+          //     height: 40,
+          //     color: Colors.blue,
+          //   child: InkWell(
+          //     onTap: (){},
+          //     child: Icon(Icons.facebook,color: Colors.white, size: 30,semanticLabel:'Facebook'),
+              
+          //   ),
+          // ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+  void _launchUrl(Uri _url) async {
+  if (!await launchUrl(_url)) throw 'Could not launch $_url';
+}
 }
